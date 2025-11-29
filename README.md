@@ -71,6 +71,6 @@ Showcase pets without prior ownership more prominently in adoption listings. Pot
 adopters may prefer these pets as they might represent a fresh start or avoid concerns
 about why a pet was returned.
 
-References:
-Rabie El kharoua. (2024). Predict Pet Adoption Status Dataset. Kaggle.
+References: </br>
+Rabie El kharoua. (2024). Predict Pet Adoption Status Dataset. Kaggle. </br>
 https://doi.org/10.34740/KAGGLE/DS/5242440
