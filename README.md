@@ -1,4 +1,6 @@
 # Pets House Database
+
+This is a collaborative initiative, which consists of a database of pets managed by an adoption agency.
 The database contains three main tables, such as: species table, pet house table, adoption table.
 
 Species table:
