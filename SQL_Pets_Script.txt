@@ -1,0 +1,86 @@
+Script on Factors Influencing Pet Adoption Likelihood
+
+Objective:
+To identify the key factors that make pets more likely to be adopted, based on data from the adopted_pets view.
+
+Note: High likelihood of adoption = 1, Low likelihood = 0.
+
+
+CREATE VIEW adopted_pets AS
+SELECT 
+s.PetType, 
+       s.Breed, 
+       h.PreviousOwner, 
+       h.AdoptionLikelihood, 
+       h.Vaccinated,
+       h.HealthCondition,
+       h.TimeInShelterDays
+FROM adoption_data AS a
+INNER JOIN pet_house AS h  
+ON a.PetHouseId_fk = h.PetHouseId
+INNER JOIN pet_species AS s
+ON s.Species_id = h.SpeciesID_fk
+GROUP BY 1, 2;
+
+
+
+1. Pet Type and Breed Trends
+
+A. The most adopted pet specie:
+
+SELECT PetType, COUNT(*)
+FROM adopted_pets
+GROUP BY 1
+ORDER BY 2 DESC;
+
+
+
+1b. Most popular dog breed:
+
+SELECT PetType, Breed, COUNT(*)
+FROM adopted_pets
+WHERE PetType = "Dog"
+GROUP BY 1, 2
+ORDER BY 3 DESC;
+
+
+
+1c. Most adopted breed for all pets:
+
+SELECT PetType, Breed, COUNT(*)
+FROM adopted_pets
+GROUP BY 1, 2
+ORDER BY 3 DESC;
+
+
+
+2. Vaccination and Health Status Impact
+Note: Vaccinated, 1 = vaccinated; 0 = not vaccinated.
+      Health condition: 1 = Bad , 0 = Good
+
+Query:
+SELECT Vaccinated, HealthCondition, SUM(AdoptionLikelihood) AS HighAdoptionLikelihood
+FROM adopted_pets
+WHERE AdoptionLikelihood = 1
+GROUP BY 1, 2
+ORDER BY 3 DESC;
+
+
+3. Time in Shelter:
+
+SELECT AdoptionLikelihood, AVG(TimeInShelterDays) AS AvgTimeInShelter
+FROM adopted_pets
+GROUP BY AdoptionLikelihood;
+
+
+4. Previous Ownership Impact
+Previous Owner: 1 - Yes, 0 - None
+
+Query:
+SELECT PreviousOwner, 
+       COUNT(*) AS TotalPets, 
+       ROUND(SUM(AdoptionLikelihood) * 100.0 / COUNT(*), 2) AS AdoptedHighPercent
+FROM adopted_pets
+GROUP BY PreviousOwner;
+
+
